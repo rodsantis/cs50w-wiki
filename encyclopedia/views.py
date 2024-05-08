@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from . import util
 
 # Using for testing
 from django.http import HttpResponse
@@ -12,9 +15,17 @@ def index(request):
     })
 
 
-def wiki(request):
-    return render(request, "encyclopedia/wiki.html")
+def wiki(request, name):
+    if util.get_entry(name) == None:
+        return errorpage(request, name, 404)
+    return render(request, "encyclopedia/wiki.html", {
+        "name": name.capitalize(),
+        "information": util.get_entry(name),
+    })
 
 
-def wiki_result(request, name):
-    return HttpResponse(f"This will be Wiki result for {name}")
+def errorpage(request, name, number):
+    return render(request, "encyclopedia/error.html", {
+        "number": number,
+        "name": name,
+    })

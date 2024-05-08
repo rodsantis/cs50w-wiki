@@ -1,0 +1,14 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %} 
+    Error
+{% endblock %}
+
+{% block body %}
+
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; width: 100%; height: 100%;">
+        <h1 style="text-align: center;">That is an Error! {{ number }}</h1>
+        <p style="text-align: center;">/{{ name }} doesn't exist!</p>
+    </div>
+
+{% endblock %}

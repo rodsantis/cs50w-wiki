@@ -1,0 +1,18 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block body %}
+    {% if entries %}
+        <h1>Your search might be related to one of these topics: </h1>
+        <ul>
+            {% for item in entries %}
+            <li><a href="{% url 'wiki' item %}">{{ item }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {{ information }}
+    {% endif %}
+{% endblock %}

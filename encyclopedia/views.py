@@ -26,25 +26,28 @@ def errorpage(request, name, number):
     })
 
 
-def wiki_search(request, name):
-    ...
-    # if request.method == "POST":
-    #     name = request.POST
-    #     name = name['q']
-    #     return HttpResponseRedirect(reverse("wiki", args=(q.id,)))
-    #     entry_list = util.list_entries()
-    #     if name in entry_list:
-    #         return render(request, "encyclopedia/wiki/<str:name>.html", {
-    #             "name": name,
-    #             "information": util.get_entry(name),
-    #         })
-    #     if name not in entry_list:
-    #         list_result = []
-    #         for item in entry_list:
-    #             if name in item:
-    #                 list_result.append(item)
-    #             continue
-    #         return render(request, "encyclopedia/wiki.html", {
-    #             "name": "Wiki",
-    #             "entries": list_result
-    #         })
+def wiki_search(request):
+    if request.method == "POST":
+        entry_list = util.list_entries()
+        final_list = [item.lower() for item in entry_list]
+        name = request.POST
+        name = name['q'].lower()
+        if name in final_list:
+            return render(request, "encyclopedia/search.html", {
+                "name": name,
+                "information": util.get_entry(name)
+            })
+        else:
+            results = list()
+            for item in final_list:
+                if name in item:
+                    results.append(item)
+                else:
+                    continue
+
+            final_results = [item.capitalize() for item in results]
+            
+            return render(request, "encyclopedia/search.html", {
+                "name": "Search",
+                "entries": final_results
+            })

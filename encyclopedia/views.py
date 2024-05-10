@@ -1,7 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django import forms
 from . import util
+
+
+class NewEntryForm(forms.Form):
+    title = forms.CharField(label="Title")
+    description = forms. CharField(label="Description")
 
 
 def index(request):
@@ -51,3 +57,9 @@ def wiki_search(request):
                 "name": "Search",
                 "entries": final_results
             })
+
+
+def new_entry(request):
+    return render(request, "encyclopedia/newentry.html", {
+        "form": NewEntryForm()
+    })

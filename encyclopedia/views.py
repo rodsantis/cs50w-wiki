@@ -7,7 +7,7 @@ from . import util
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
-    description = forms. CharField(label="Description")
+    description = forms.CharField(label="Description", widget=forms.Textarea(attrs={"style": "height:200px; width:500px"}))
 
 
 def index(request):
@@ -26,10 +26,18 @@ def wiki(request, name):
 
 
 def errorpage(request, name, number):
-    return render(request, "encyclopedia/error.html", {
+    return render(request, "encyclopedia/404.html", {
         "number": number,
         "name": name,
     })
+
+
+def error_exists(request, name, number):
+    return render(request, "encyclopedia/409.html", {
+        "number": number,
+        "name": name,
+    })
+
 
 
 def wiki_search(request):
@@ -60,6 +68,26 @@ def wiki_search(request):
 
 
 def new_entry(request):
+    if request.method == "POST":
+        entry_list = util.list_entries()
+        final_list = [item.lower() for item in entry_list]
+        form = NewEntryForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            if title.lower() in final_list:
+                return error_exists(request, title, 409)
+            description = form.cleaned_data["description"]
+            util.save_entry(title, description)
+            return render(request, "encyclopedia/wiki.html", {
+                "name": title.capitalize(),
+                "information": util.get_entry(title),
+            })
+        else:
+            return render(request, "encyclopedia/newentry.html", {
+                "form": form
+            })
+
+
     return render(request, "encyclopedia/newentry.html", {
         "form": NewEntryForm()
     })

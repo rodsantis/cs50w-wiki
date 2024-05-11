@@ -8,5 +8,6 @@
     <form action="{% url 'new-entry' %}" method="post">
         {% csrf_token %}
         {{ form }}
+        <input type="submit" value="Save">
     </form>
 {% endblock %}

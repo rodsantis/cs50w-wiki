@@ -10,6 +10,14 @@ class NewEntryForm(forms.Form):
     description = forms.CharField(label="Description", widget=forms.Textarea(attrs={"style": "height:200px; width:500px"}))
 
 
+# Working on this form, I don't know yet if this initial idea will wokr
+# I'm trying to get the form created and then through the function call it passing the value from
+# the link which the user will click to edit the entry
+# class EditForm(forms.Form):
+#     value = util.get_entry(name)
+#     edit = forms.CharField(label="Edit", widget=forms.Textarea(format_value(value)))
+
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
@@ -91,3 +99,7 @@ def new_entry(request):
     return render(request, "encyclopedia/newentry.html", {
         "form": NewEntryForm()
     })
+
+
+def edit_page(request):
+    ...

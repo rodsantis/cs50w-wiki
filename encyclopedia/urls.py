@@ -10,4 +10,5 @@ urlpatterns = [
     path("", views.error_exists, name="error-exists"),
     path("wiki/search/", views.wiki_search, name="search"),
     path("new-entry/", views.new_entry, name="new-entry"),
+    path("edit/", views.edit_page, name="edit"),
 ]

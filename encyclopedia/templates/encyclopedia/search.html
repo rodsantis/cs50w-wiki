@@ -14,5 +14,6 @@
         </ul>
     {% else %}
         {{ information }}
+        <input style="display: block;" type="submit" value="Edit" formaction="{% url 'edit' %}">
     {% endif %}
 {% endblock %}

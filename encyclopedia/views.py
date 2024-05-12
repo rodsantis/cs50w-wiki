@@ -7,15 +7,7 @@ from . import util
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
-    description = forms.CharField(label="Description", widget=forms.Textarea(attrs={"style": "height:200px; width:500px"}))
-
-
-# Working on this form, I don't know yet if this initial idea will wokr
-# I'm trying to get the form created and then through the function call it passing the value from
-# the link which the user will click to edit the entry
-# class EditForm(forms.Form):
-#     value = util.get_entry(name)
-#     edit = forms.CharField(label="Edit", widget=forms.Textarea(format_value(value)))
+    description = forms.CharField(label="Description", widget=forms.Textarea(attrs={"style": "height:300px; width:600px"}))
 
 
 def index(request):
@@ -25,6 +17,15 @@ def index(request):
 
 
 def wiki(request, name):
+    if request.method == "POST":
+        name = name
+        change = request.POST
+        change = change['edit-entry']
+        util.save_entry(name, change)
+        return render(request, "encyclopedia/wiki.html", {
+            "name": name.capitalize(),
+            "information": util.get_entry(name),
+        })
     if util.get_entry(name) == None:
         return errorpage(request, name, 404)
     return render(request, "encyclopedia/wiki.html", {
@@ -56,7 +57,7 @@ def wiki_search(request):
         name = name['q'].lower()
         if name in final_list:
             return render(request, "encyclopedia/search.html", {
-                "name": name,
+                "name": name.capitalize(),
                 "information": util.get_entry(name)
             })
         else:
@@ -101,5 +102,10 @@ def new_entry(request):
     })
 
 
-def edit_page(request):
-    ...
+def edit_page(request, name):
+    if request.method == "POST":
+        name = name
+        return render(request, "encyclopedia/editpage.html", {
+            "name": name,
+            "information": util.get_entry(name)
+        })

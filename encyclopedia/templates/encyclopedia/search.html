@@ -14,6 +14,9 @@
         </ul>
     {% else %}
         {{ information }}
-        <input style="display: block;" type="submit" value="Edit" formaction="{% url 'edit' %}">
+        <form action="{% url 'edit' name %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Edit">
+        </form>
     {% endif %}
 {% endblock %}

@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -109,3 +110,11 @@ def edit_page(request, name):
             "name": name,
             "information": util.get_entry(name)
         })
+
+
+def random_page(request):
+    name = random.choice(util.list_entries())
+    return render(request, "encyclopedia/randompage.html", {
+        "name": name.capitalize(),
+        "information": util.get_entry(name)
+    })

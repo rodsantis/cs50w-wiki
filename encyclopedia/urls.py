@@ -11,4 +11,5 @@ urlpatterns = [
     path("wiki/search/", views.wiki_search, name="search"),
     path("new-entry/", views.new_entry, name="new-entry"),
     path("edit/<str:name>", views.edit_page, name="edit"),
+    path("wiki/random/", views.random_page, name="random-page")
 ]

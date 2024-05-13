@@ -12,8 +12,10 @@
             <li><a href="{% url 'wiki' item %}">{{ item }}</a></li>
             {% endfor %}
         </ul>
+    {% elif noresult %}
+        {{ noresult }}
     {% else %}
-        {{ information }}
+        {{ information | safe }}
         <form action="{% url 'edit' name %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Edit">

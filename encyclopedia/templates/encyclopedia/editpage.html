@@ -7,7 +7,7 @@
 {% block body %}
     <form action="{% url 'wiki' name %}" method="post">
         {% csrf_token %}
-        <textarea name="edit-entry" id="edit-entry" cols="30" rows="10">{{ information }}</textarea>
+        <textarea name="edit-entry" id="edit-entry" cols="30" rows="10">{{ information | safe }}</textarea>
         <input type="submit" value="Save">
     </form>
 {% endblock %}

@@ -1,10 +1,10 @@
 import random
+import markdown2
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django import forms
 from . import util
-
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
@@ -25,13 +25,13 @@ def wiki(request, name):
         util.save_entry(name, change)
         return render(request, "encyclopedia/wiki.html", {
             "name": name.capitalize(),
-            "information": util.get_entry(name),
+            "information": markdown2.markdown(util.get_entry(name)),
         })
     if util.get_entry(name) == None:
         return errorpage(request, name, 404)
     return render(request, "encyclopedia/wiki.html", {
         "name": name.capitalize(),
-        "information": util.get_entry(name),
+        "information": markdown2.markdown(util.get_entry(name)),
     })
 
 
@@ -59,7 +59,7 @@ def wiki_search(request):
         if name in final_list:
             return render(request, "encyclopedia/search.html", {
                 "name": name.capitalize(),
-                "information": util.get_entry(name)
+                "information": markdown2.markdown(util.get_entry(name))
             })
         else:
             results = list()
@@ -90,7 +90,7 @@ def new_entry(request):
             util.save_entry(title, description)
             return render(request, "encyclopedia/wiki.html", {
                 "name": title.capitalize(),
-                "information": util.get_entry(title),
+                "information": markdown2.markdown(util.get_entry(title)),
             })
         else:
             return render(request, "encyclopedia/newentry.html", {
@@ -110,3 +110,11 @@ def edit_page(request, name):
             "name": name,
             "information": util.get_entry(name)
         })
+
+
+def random_page(request):
+    name = random.choice(util.list_entries())
+    return render(request, "encyclopedia/randompage.html", {
+        "name": name.capitalize(),
+        "information": markdown2.markdown(util.get_entry(name))
+    })

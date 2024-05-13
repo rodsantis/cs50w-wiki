@@ -13,7 +13,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        {{ information }}
+        {{ information | safe }}
         <form action="{% url 'edit' name %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Edit">

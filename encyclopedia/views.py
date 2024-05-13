@@ -56,11 +56,6 @@ def wiki_search(request):
         final_list = [item.lower() for item in entry_list]
         name = request.POST
         name = name['q'].lower()
-        if name not in final_list:
-            return render(request, "encyclopedia/search.html", {
-                "name": "Search",
-                "noresult": "No results found for this search!"
-            })
         if name in final_list:
             return render(request, "encyclopedia/search.html", {
                 "name": name.capitalize(),

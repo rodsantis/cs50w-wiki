@@ -6,14 +6,12 @@
 
 {% block body %}
     {% if entries %}
-        <h1>Your search might be related to one of these topics: </h1>
+        <h1>You could find one of our topics interesting: </h1>
         <ul>
             {% for item in entries %}
             <li><a href="{% url 'wiki' item %}">{{ item }}</a></li>
             {% endfor %}
         </ul>
-    {% elif noresult %}
-        {{ noresult }}
     {% else %}
         {{ information | safe }}
         <form action="{% url 'edit' name %}" method="post">
